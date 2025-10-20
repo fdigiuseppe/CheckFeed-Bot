@@ -32,7 +32,7 @@ def parse_date(pub_date_str: str) -> datetime:
         dt = dt.astimezone(timezone.utc)
     return dt
 
-def parse_date(n):
+def parse_news_date(n):
     pub_str = n.get("published", "")
     try:
         return parsedate_to_datetime(pub_str)

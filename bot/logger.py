@@ -1,6 +1,5 @@
 import os
 from datetime import timedelta, datetime
-from bot.utils import parse_date
 
 LOG_DIR = "data/logs"
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -15,16 +14,17 @@ def log(message: str):
 
 def cleanup_logs(retention_days: int):
     """Elimina i file di log più vecchi di retention_days."""
-    cutoff = datetime.now() - timedelta(days=retention_days)
+    cutoff_date = datetime.now().date() - timedelta(days=retention_days)
     for file in os.listdir(LOG_DIR):
         path = os.path.join(LOG_DIR, file)
         if os.path.isfile(path) and file.endswith(".log"):
             file_date_str = file.replace(".log", "")
             try:
-                file_date = parse_date(file_date_str)
-                if file_date < cutoff:
+                # Parse della data del file (formato YYYY-MM-DD)
+                file_date = datetime.strptime(file_date_str, "%Y-%m-%d").date()
+                if file_date < cutoff_date:
                     os.remove(path)
                     log(f"🗑️ Rimosso log vecchio: {file}")
-            except Exception:
+            except Exception as e:
                 continue
 
