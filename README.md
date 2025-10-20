@@ -181,6 +181,35 @@ data/logs/2025-10-05.log
 * 🧩 Deduplica feed per evitare duplicati
 * 📁 Database utenti in `data/checkfeed.db`
 
+### 🧪 Test manuale del cleanup
+
+Per verificare che la pulizia automatica funzioni correttamente:
+
+```bash
+# Controlla i permessi dei file di log
+ls -la data/logs/
+
+# Testa il cleanup manualmente
+python test_cleanup.py
+```
+
+**Risoluzione problemi di permessi:**
+
+Se il test fallisce con errori di permessi, correggi con:
+
+```bash
+# Cambia il proprietario dei file di log
+sudo chown -R tuoutente:tuoutente data/logs/
+
+# Oppure dai permessi di scrittura
+sudo chmod -R 664 data/logs/*.log
+
+# Poi ritesta il cleanup
+python test_cleanup.py
+```
+
+> **💡 Nota:** Il cleanup automatico viene eseguito dal bot con i permessi appropriati, quindi funziona correttamente in produzione anche se il test manuale richiede correzioni di permessi.
+
 ---
 
 ## 📜 Licenza
